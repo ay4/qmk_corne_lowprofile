@@ -1,22 +1,4 @@
 /*
-Copyright 2019 @foostan
-Copyright 2020 Drashna Jaelre <@drashna>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/*
 
 ██╗███╗   ██╗ ██████╗██╗     ██╗   ██╗██████╗ ███████╗███████╗
 ██║████╗  ██║██╔════╝██║     ██║   ██║██╔══██╗██╔════╝██╔════╝
@@ -60,10 +42,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define RU_Q LT(0, KC_Q)         // Switches ro _RU when held, Q on tap
 #define EN_ESC LT(0, KC_ESC)     // Switches to _EN when held, Escape when tapped
-#define RU_SYM LT(0, KC_SPC)     // Switches to _EN and to the _SYM layer to produce symbols 
+#define RU_SYM LT(0, KC_SPC)     // Switches to _EN and to the _SYM layer to produce symbols
 #define ST_SH OSM(MOD_LSFT)      // Sticky shift
 #define CTL_ESC CTL_T(KC_ESC)    // Ctrl on hold, Esc on tap
-#define CMD_QW LT(0, KC_LCMD)    // When held, switches to English and to _QW, 
+#define CMD_QW LT(0, KC_LCMD)    // When held, switches to English and to _QW,
                                  // while holding Command. When released switches back
                                  // to _RU. When tapped, just Command.
 #define ALT_QW LT(0, KC_LALT)    // ^ Same for Option.
@@ -73,6 +55,26 @@ enum custom_keycodes {
   TO_RU = SAFE_RANGE
 };
 
+//
+// These four combos implement three-finger presses in home
+// position. The combo on the left side will produce cmd-shift-space
+// which in my current setup is matched to the Hints mode of the
+// piece of software called Homerow.app (Mac).
+// The same on the right will have the software enter
+// the scrolling mode. I need four combos because of
+// two language layouts.
+//
+const uint16_t PROGMEM hints_en[] = {KC_I, KC_E, KC_A, COMBO_END};
+const uint16_t PROGMEM hints_ru[] = {KC_B, KC_T, KC_F, COMBO_END};
+const uint16_t PROGMEM scroll_en[] = {KC_H, KC_T, KC_S, COMBO_END};
+const uint16_t PROGMEM scroll_ru[] = {KC_Y, KC_N, KC_C, COMBO_END};
+
+combo_t key_combos[] = {
+    COMBO(hints_en, LCMD(S(KC_SPC))),
+    COMBO(hints_ru, LCMD(S(KC_SPC))),
+    COMBO(scroll_en, LCMD(S(KC_J))),
+    COMBO(scroll_ru, LCMD(S(KC_J))),
+};
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -102,7 +104,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               layer_move(_EN);
             }
             return false;
-        
+
         // A macro that, whn held, changes the software language
         // from RU to EN, switches to the punctuation layer,
         // allows to type some characters in there and then
@@ -115,13 +117,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               layer_move(_SYM);
             } else if (!record->event.pressed) {
               SEND_STRING(SS_LCMD(SS_LALT("2")));            //When released
-              layer_move(_RU);              
+              layer_move(_RU);
             }
             return false;
-        
-        // When held, switches to English and to _QW, 
+
+        // When held, switches to English and to _QW,
         // while holding Command. When released switches back
-        // to _RU. When tapped, just Command.          
+        // to _RU. When tapped, just Command.
           case CMD_QW:
             if (record->tap.count && record->event.pressed) { // When simply tapped
                 tap_code16(KC_LCMD);
@@ -132,11 +134,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else if (!record->event.pressed) {
               unregister_code16(KC_LCMD);
               SEND_STRING(SS_LCMD(SS_LALT("2")));            //When released
-              layer_move(_RU);              
+              layer_move(_RU);
             }
             return false;
 
-        // Same as above, but for alt 
+        // Same as above, but for alt
           case ALT_QW:
             if (record->tap.count && record->event.pressed) { // When simply tapped
                 tap_code16(KC_LALT);
@@ -147,7 +149,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else if (!record->event.pressed) {
               unregister_code16(KC_LALT);
               SEND_STRING(SS_LCMD(SS_LALT("2")));            //When released
-              layer_move(_RU);              
+              layer_move(_RU);
             }
             return false;
     }
@@ -241,7 +243,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
 /*
-┌───────┬───────┬───────┬───────┬───────┬───────┐                        ┌───────┬───────┬───────┬───────┬───────┬───────┐ 
+┌───────┬───────┬───────┬───────┬───────┬───────┐                        ┌───────┬───────┬───────┬───────┬───────┬───────┐
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 │       │   $   │   _   │   [   │   -   │ mdash │░                       │   /   │   !   │   ]   │   *   │   %   │       │░
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
@@ -255,16 +257,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 └───────┴───────┴───────┴───────┴───────┴───────┘░                       └───────┴───────┴───────┴───────┴───────┴───────┘░
  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░┌───────┐      ┌───────┐ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-                                ┌───────┬───────┐│░░░░░░░│      │       │░┌───────┬───────┐                                
-                                │       │       ││░░░░░░░│      │       │░│       │       │░                               
-                                │       │       ││░░░░░░░│      │  RET  │░│       │       │░                               
-                                │       │       ││░░░░░░░│      │       │░│       │       │░                               
-                                └───────┴───────┘│░░░░░░░│      │       │░└───────┴───────┘░                               
-                                 ░░░░░░░░░░░░░░░░│░░░░░░░│      │       │░ ░░░░░░░░░░░░░░░░░                               
-                                                 └───────┘      └───────┘░                                                 
-                                                                 ░░░░░░░░░                                                 
+                                ┌───────┬───────┐│░░░░░░░│      │       │░┌───────┬───────┐
+                                │       │       ││░░░░░░░│      │       │░│       │       │░
+                                │       │       ││░░░░░░░│      │  RET  │░│       │       │░
+                                │       │       ││░░░░░░░│      │       │░│       │       │░
+                                └───────┴───────┘│░░░░░░░│      │       │░└───────┴───────┘░
+                                 ░░░░░░░░░░░░░░░░│░░░░░░░│      │       │░ ░░░░░░░░░░░░░░░░░
+                                                 └───────┘      └───────┘░
+                                                                 ░░░░░░░░░
 
-*/  
+*/
 
     [2] = LAYOUT_split_3x6_3(
   //,---------------------------------------------------------------------.         ,----------------------------------------------------------------.
@@ -280,7 +282,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 /*
-┌───────┬───────┬───────┬───────┬───────┬───────┐                        ┌───────┬───────┬───────┬───────┬───────┬───────┐ 
+┌───────┬───────┬───────┬───────┬───────┬───────┐                        ┌───────┬───────┬───────┬───────┬───────┬───────┐
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 │  +++  │   Q   │   W   │   E   │   R   │   T   │░                       │   Y   │   U   │   I   │   O   │   P   │   [   │░
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
@@ -294,15 +296,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 └───────┴───────┴───────┴───────┴───────┴───────┘░                       └───────┴───────┴───────┴───────┴───────┴───────┘░
  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░┌───────┐      ┌───────┐ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-                                ┌───────┬───────┐│       │░     │       │░┌───────┬───────┐                                
-                                │       │       ││       │░     │       │░│       │       │░                               
-                                │   ⌥   │   ⌘   ││  +++  │░     │  +++  │░│  +++  │  +++  │░                               
-                                │       │       ││       │░     │       │░│       │       │░                               
-                                └───────┴───────┘│       │░     │       │░└───────┴───────┘░                               
-                                 ░░░░░░░░░░░░░░░░│       │░     │       │░ ░░░░░░░░░░░░░░░░░                               
-                                                 └───────┘░     └───────┘░                                                 
-                                                  ░░░░░░░░░      ░░░░░░░░░                                                  
-*/ 
+                                ┌───────┬───────┐│       │░     │       │░┌───────┬───────┐
+                                │       │       ││       │░     │       │░│       │       │░
+                                │   ⌥   │   ⌘   ││  +++  │░     │  +++  │░│  +++  │  +++  │░
+                                │       │       ││       │░     │       │░│       │       │░
+                                └───────┴───────┘│       │░     │       │░└───────┴───────┘░
+                                 ░░░░░░░░░░░░░░░░│       │░     │       │░ ░░░░░░░░░░░░░░░░░
+                                                 └───────┘░     └───────┘░
+                                                  ░░░░░░░░░      ░░░░░░░░░
+*/
 
     [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -317,7 +319,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
 /*
-┌───────┬───────┬───────┬───────┬───────┬───────┐                        ┌───────┬───────┬───────┬───────┬───────┬───────┐ 
+┌───────┬───────┬───────┬───────┬───────┬───────┐                        ┌───────┬───────┬───────┬───────┬───────┬───────┐
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 │       │       │       │       │       │       │░                       │  ⌘←   │  ⌥←   │   ↑   │  ⌥→   │  ⌘→   │       │░
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
@@ -331,15 +333,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 └───────┴───────┴───────┴───────┴───────┴───────┘░                       └───────┴───────┴───────┴───────┴───────┴───────┘░
  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░┌───────┐      ┌───────┐ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-                                ┌───────┬───────┐│       │░     │       │░┌───────┬───────┐                                
-                                │       │       ││       │░     │       │░│░░░░░░░│       │░                               
-                                │   ⌥   │   ⌘   ││       │░     │       │░│░░░░░░░│       │░                               
-                                │       │       ││       │░     │       │░│░░░░░░░│       │░                               
-                                └───────┴───────┘│       │░     │       │░└───────┴───────┘░                               
-                                 ░░░░░░░░░░░░░░░░│       │░     │       │░ ░░░░░░░░░░░░░░░░░                               
-                                                 └───────┘░     └───────┘░                                                 
-                                                  ░░░░░░░░░      ░░░░░░░░░                                                 
-*/   
+                                ┌───────┬───────┐│       │░     │       │░┌───────┬───────┐
+                                │       │       ││       │░     │       │░│░░░░░░░│       │░
+                                │   ⌥   │   ⌘   ││       │░     │       │░│░░░░░░░│       │░
+                                │       │       ││       │░     │       │░│░░░░░░░│       │░
+                                └───────┴───────┘│       │░     │       │░└───────┴───────┘░
+                                 ░░░░░░░░░░░░░░░░│       │░     │       │░ ░░░░░░░░░░░░░░░░░
+                                                 └───────┘░     └───────┘░
+                                                  ░░░░░░░░░      ░░░░░░░░░
+*/
 
     [4] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-------------------------------------------------------------------------.
@@ -354,7 +356,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
 /*
-┌───────┬───────┬───────┬───────┬───────┬───────┐                        ┌───────┬───────┬───────┬───────┬───────┬───────┐ 
+┌───────┬───────┬───────┬───────┬───────┬───────┐                        ┌───────┬───────┬───────┬───────┬───────┬───────┐
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 │       │       │       │       │       │       │░                       │       │       │       │   1   │   2   │   3   │░
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
@@ -368,15 +370,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 └───────┴───────┴───────┴───────┴───────┴───────┘░                       └───────┴───────┴───────┴───────┴───────┴───────┘░
  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░┌───────┐      ┌───────┐ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-                                ┌───────┬───────┐│       │░     │       │░┌───────┬───────┐                                
-                                │       │       ││       │░     │       │░│       │░░░░░░░│░                               
-                                │       │       ││       │░     │       │░│       │░░░░░░░│░                               
-                                │       │       ││       │░     │       │░│       │░░░░░░░│░                               
-                                └───────┴───────┘│       │░     │       │░└───────┴───────┘░                               
-                                 ░░░░░░░░░░░░░░░░│       │░     │       │░ ░░░░░░░░░░░░░░░░░                               
-                                                 └───────┘░     └───────┘░                                                 
-                                                  ░░░░░░░░░      ░░░░░░░░░                                                 
-*/  
+                                ┌───────┬───────┐│       │░     │       │░┌───────┬───────┐
+                                │       │       ││       │░     │       │░│       │░░░░░░░│░
+                                │       │       ││       │░     │       │░│       │░░░░░░░│░
+                                │       │       ││       │░     │       │░│       │░░░░░░░│░
+                                └───────┴───────┘│       │░     │       │░└───────┴───────┘░
+                                 ░░░░░░░░░░░░░░░░│       │░     │       │░ ░░░░░░░░░░░░░░░░░
+                                                 └───────┘░     └───────┘░
+                                                  ░░░░░░░░░      ░░░░░░░░░
+*/
 
     [5] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
