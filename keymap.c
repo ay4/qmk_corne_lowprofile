@@ -11,7 +11,8 @@
 
 
 #include QMK_KEYBOARD_H
-
+#include "russian_arno.h"
+#include "symbols.h"
 
 /*
 ██╗      █████╗ ██╗   ██╗███████╗██████╗ ███████╗
@@ -232,11 +233,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, KC_COMM,  KC_S,     KC_J,    KC_E,  KC_QUOTE,                       KC_W,    KC_K,    KC_L,    KC_P,    KC_Z,  KC_RBRC,
+      _______, RU_BE,   RU_Y,    RU_O,    RU_U,    RU_UE,                       RU_TS,    RU_L,    RU_D,    RU_Z,    RU_YA,  RU_HARD,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      EN_ESC,  KC_X,    KC_B,     KC_T,    KC_F,    KC_Q,                         KC_D,    KC_Y,    KC_N,    KC_C,    KC_M,   KC_DOT,
+      EN_ESC,  RU_CH,   RU_I,    RU_E,    RU_A,    RU_J,                         RU_V,    RU_N,    RU_T,    RU_S,    RU_SOFT,   RU_YU,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_U,    KC_I,   KC_SCLN,   KC_R,    KC_O,                       KC_LBRC,   KC_H,    KC_V,    KC_A,    KC_G,  KC_TRNS,
+      _______, RU_G,    RU_SH,   RU_ZH,   RU_K,    RU_SCH,                       RU_KH,   RU_R,    RU_M,    RU_F,    RU_PE,  KC_TRNS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           ALT_QW,  CMD_QW,   RU_SYM,      KC_BSPC, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -270,11 +271,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [2] = LAYOUT_split_3x6_3(
   //,---------------------------------------------------------------------.         ,----------------------------------------------------------------.
-      XXXXXXX, S(KC_4),   S(KC_MINS), KC_LBRC,  KC_MINS,    A(S(KC_MINS)),             KC_SLSH,   S(KC_1),    KC_RBRC,    S(KC_8),   S(KC_5), XXXXXXX,
+      XXXXXXX, AY_DLR,    AY_UNDR,    AY_LBRC,   AY_MINS,    AY_MDASH,                 AY_SLSH,   AY_EXCL,    AY_RBRC,    AY_STAR,  AY_PERC,  XXXXXXX,
   //|--------+-----------+-----------+---------+-----------+--------------|         |-----------+-----------+-----------+----------+--------+--------|
-      XXXXXXX, S(KC_2),   S(KC_EQL),  S(KC_9),  KC_COMM,    KC_SCLN,                  S(KC_SCLN),  KC_DOT,    S(KC_0),    S(KC_3),   S(KC_7), XXXXXXX,
+      XXXXXXX, AY_AT,     AY_PLUS,    AY_LPRN,   AY_COMM,    AY_SCLN,                  AY_CLN,    AY_DOT,     AY_RPRN,    AY_HASH,  AY_AMPER, XXXXXXX,
   //|--------+-----------+-----------+---------+-----------+--------------|         |-----------+-----------+-----------+----------+--------+--------|
-      XXXXXXX, KC_EQL,  S(KC_COMM), S(KC_LBRC), KC_QUOT,    S(KC_QUOT),               S(KC_GRV), S(KC_SLSH), S(KC_RBRC), S(KC_DOT), KC_EQL,  XXXXXXX,
+      XXXXXXX, AY_EQL,    AY_LCORN,   AY_LCURL,  AY_APOS,    AY_QUOTE,                 AY_TILDE,  AY_QUEST,   AY_RCURL,   AY_RCORN, AY_EQL,   XXXXXXX,
   //|--------+-----------+-----------+---------+-----------+--------------|         |-----------+-----------+-----------+----------+--------+--------|
                                              XXXXXXX,   XXXXXXX,  XXXXXXX,          KC_ENT, XXXXXXX, XXXXXXX
                                              //`--------------------------'         `--------------------------'
@@ -321,15 +322,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
 ┌───────┬───────┬───────┬───────┬───────┬───────┐                        ┌───────┬───────┬───────┬───────┬───────┬───────┐
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
-│       │       │       │       │       │       │░                       │  ⌘←   │  ⌥←   │   ↑   │  ⌥→   │  ⌘→   │       │░
+│       │       │       │       │       │       │░                       │       │ Tab←  │   ↑   │ Tab→  │       │       │░
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 ├───────┼───────┼───────┼───────┼───────┼───────┤░                       ├───────┼───────┼───────┼───────┼───────┼───────┤░
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
-│       │       │       │       │       │       │░                       │  ⇧←   │   ←   │   ↓   │   →   │  ⇧→   │       │░
+│       │       │       │       │       │       │░                       │  ⌥←   │   ←   │   ↓   │   →   │  ⌥→   │       │░
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 ├───────┼───────┼───────┼───────┼───────┼───────┤░                       ├───────┼───────┼───────┼───────┼───────┼───────┤░
 │ norm. │       │       │       │       │       │░                       │       │       │       │       │       │       │░
-│ shift │       │       │       │       │       │░                       │       │  ⇧⌥←  │       │  ⇧⌥→  │       │       │░
+│ shift │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 │       │       │       │       │       │       │░                       │       │       │       │       │       │       │░
 └───────┴───────┴───────┴───────┴───────┴───────┘░                       └───────┴───────┴───────┴───────┴───────┴───────┘░
  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░┌───────┐      ┌───────┐ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -345,11 +346,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [4] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-------------------------------------------------------------------------.
-     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      G(KC_LEFT), A(KC_LEFT),    KC_UP,   A(KC_RIGHT),    G(KC_RIGHT), XXXXXXX,
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,    G(S(KC_LBRC)), KC_UP,    G(S(KC_RBRC)),  XXXXXXX,    XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |-----------+--------------+--------+---------------+------------+--------|
-     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      S(KC_LEFT), KC_LEFT,       KC_DOWN, KC_RIGHT,       S(KC_RIGHT), XXXXXXX,
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      A(KC_LEFT), KC_LEFT,       KC_DOWN,  KC_RIGHT,       A(KC_RIGHT), XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |-----------+--------------+--------+---------------+------------+--------|
-     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,    S(A(KC_LEFT)), XXXXXXX, S(A(KC_RIGHT)), XXXXXXX,     XXXXXXX,
+     KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,    XXXXXXX,       XXXXXXX,  S(A(KC_RIGHT)), XXXXXXX,     XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+-----------+--------------+--------+---------------+------------+--------|
                                           KC_LALT, KC_LCMD, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
